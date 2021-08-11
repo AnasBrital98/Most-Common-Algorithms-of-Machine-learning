@@ -18,7 +18,7 @@ class DecisionStump:
 
 class AdaBoost:
     
-    def __init__(self , nbr_classifiers = 15 , epsilon = 1e-10):
+    def __init__(self , nbr_classifiers = 10 , epsilon = 1e-10):
         self.nbr_classifiers = nbr_classifiers
         self.epsilon = epsilon
         self.classifiers = []
@@ -76,14 +76,26 @@ class AdaBoost:
          classifiers_predictions = [classifier.alpha * classifier.predict(x) for classifier in self.classifiers]
          y_pred = np.sum(classifiers_predictions , axis = 0)
          return np.sign(y_pred)
-
+     
+    def plotTheModel(self):
+        fig , ax = plt.subplots()
+        Weak_Classifiers = []
+        Errors = []
+        for i in range(self.nbr_classifiers):
+            Weak_Classifiers.append("c"+str(i))
+            Errors.append(self.classifiers[i].alpha)
+        ax.bar(Weak_Classifiers , Errors)
+        ax.set_ylabel("Error")
+        ax.set_xlabel("classifiers")
+        ax.set_title("Error of classifiers")
+        plt.show()
 #Test AdaBoost 
 
 def Accuracy(y , y_hat):
     return np.sum(y != y_hat) / len(y)
 
 
-x , y = make_blobs(n_samples=200 , n_features=2 , centers=2 , random_state=0)
+x , y = make_blobs(n_samples=500 , n_features=10 , centers=2 , random_state=0)
 x_train , x_test , y_train , y_test = train_test_split(x , y , test_size=0.25)
 
 adaBoost  = AdaBoost()
@@ -91,6 +103,7 @@ adaBoost.fit(x_train, y_train)
 adaBoost.train()
 y_hat = adaBoost.predict(x_test)
 print("AdaBoost Accuracy : ",Accuracy(y_test, y_hat))
+adaBoost.plotTheModel()
  
 
 
