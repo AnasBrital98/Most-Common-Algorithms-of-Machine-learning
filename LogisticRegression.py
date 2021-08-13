@@ -64,8 +64,6 @@ class LogisticRegression :
         plt.show()
 
 x , y = make_blobs(n_samples=200 , n_features=2 , centers= 2 , random_state=1234)
-
-
 x_train , x_test , y_train , y_test = train_test_split(x , y , test_size=0.25)
 
 L_regression = LogisticRegression()

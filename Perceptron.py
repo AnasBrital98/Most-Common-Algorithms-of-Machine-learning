@@ -34,9 +34,7 @@ class Perceptron :
             for x , y in zip(self.x , self.y):
                 z = np.dot(self.w , x)
                 y_hat = self.heaviside(z)
-                self.w += self.learning_rate * (y - y_hat) * x
-        #self.displayModel()        
-                
+                self.w += self.learning_rate * (y - y_hat) * x                
                 
     def predict(self,x):
         z = np.dot(self.w , x)
@@ -46,7 +44,9 @@ class Perceptron :
     def displayModel(self):
         fig , ax = plt.subplots(figsize=(10,7))
         ax.scatter(self.x[:,0] , self.x[:,1] , c = self.y , cmap="bwr")
-        x1 = np.linspace(-15,4,100)
+        min_x = min(self.x[:,0])
+        max_x = max(self.x[:,0])
+        x1 = np.linspace(min_x,max_x,100)
         x2 = (-self.w[0][0] * x1 - self.w[0][2]) / self.w[0][1]
         ax.plot(x1,x2 , c='g' , lw=8)
         
@@ -54,7 +54,7 @@ class Perceptron :
 
 x , y = make_blobs(n_samples=200 , n_features=2 , centers=2 , random_state= 0)
 
-x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.5 , random_state=0)
+x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.5 , random_state=123)
 
 
 b = np.ones(x_train.shape[0])
@@ -69,7 +69,7 @@ x_test  = np.hstack((x_test , b))
 perceptron = Perceptron()
 perceptron.fit(x_train, y_train)
 perceptron.train()
-
+perceptron.displayModel()
 
 y_hat = perceptron.predict(x_test.T)
 score = accuracy_score(y_test , y_hat)
