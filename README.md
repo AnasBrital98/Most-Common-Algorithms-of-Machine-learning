@@ -944,7 +944,6 @@ x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.1)
 decisionTree = DecisionTree(nbr_features=x_train.shape[1])
 decisionTree.fit(x_train, y_train)
 y_hat = decisionTree.predict(x_test)
-print("y_hat : ",y_hat)
 print("Model Accuracy : ",accuracy(y_test, y_hat))
 ```
 ---
