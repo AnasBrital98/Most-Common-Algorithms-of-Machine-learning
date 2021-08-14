@@ -1,5 +1,5 @@
-# Most Common Algorithms of Machine Learning
-This Repository contains The Implementation of this Algorithms :
+# Most Common Machine Learning Algorithms 
+This Repository contains The Explanation and the Implementation of this Algorithms :
 
 * Linear Regression .
 * Logistic Regression .
@@ -44,7 +44,7 @@ The Optimization Algorithm Used in this Example is **Gradient Descent** ans it d
 <img src="resources/gradientDescentFormula.png" width="300">
 </div>
 
-### Implementation :
+#### Implementation :
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -88,7 +88,7 @@ class LinearRegression:
         plt.plot(x_test , y_hat , color='r')
         plt.show()
 ```
-### Testing The Model :
+#### Testing The Model :
 
 ```python
 def MSE(y_true , y_pred):
@@ -109,7 +109,7 @@ print("MSE : ",MSE(y_test , y_hat))
 
 ```
 
-### The Model Result :
+#### The Model Result :
 <div align="center" >
 <img src="resources/linearRegression.png" width="300">
 </div>
@@ -143,7 +143,7 @@ The Optimization Algorithm Used in this Example is **Gradient Descent** ans it d
 </div>
 
 
-### Implementation :
+#### Implementation :
 
 ``` python
 
@@ -212,7 +212,7 @@ class LogisticRegression :
         plt.plot(x1  , x2 , c='g')
         plt.show()
 ```
-### Test The Model :
+#### Test The Model :
 
 ```python
 x , y = make_blobs(n_samples=200 , n_features=2 , centers= 2 , random_state=1234)
@@ -226,13 +226,13 @@ score = accuracy_score(y_test , y_hat)
 L_regression.didplayTheModel(x, y)
 ```
 
-### The Model Result :
+#### The Model Result :
 
 <div align="center" >
 <img src="resources/logisticRegressionResult.png" width="300">
 </div>
 
-### The Loss of The Model :
+#### The Loss of The Model :
 
 
 <div align="center" >
@@ -266,7 +266,7 @@ The Update Rules for The Perceptron are :
 <img src="resources/update-rules.jpg" width="300" height="200">
 </div>
 
-### Implementation :
+#### Implementation :
 
 ```python
 import numpy as np
@@ -321,7 +321,7 @@ class Perceptron :
 
 ```
 
-### Test The Model :
+#### Test The Model :
 
 ```python
 x , y = make_blobs(n_samples=200 , n_features=2 , centers=2 , random_state= 0)
@@ -346,7 +346,7 @@ print("Model Accuracy : ", score)
 
 ```
 
-### The Model Result :
+#### The Model Result :
 
 <div align="center" >
 <img src="resources/PerceptronResult.png" width="300" height="200">
@@ -366,7 +366,7 @@ The k-nearest neighbors is a simple supervised machine learning algorithm that c
 
 The idea behind K nearest neighbors is very simple , imagine with we have a training_set contains M samples , every sample contains N Features , if we've a new sample we want to classify , we need to find The K closest sample in the training_set to our new Sample (Using euclidean distance) , then the class of our sample is the most common class in The K closest samples that we calculated before , this is why they called it **K nearest neighbors** it all about finding the Neighbors .
 
-### Implementation :
+#### Implementation :
 
 ```python
 import matplotlib.pyplot as plt
@@ -424,7 +424,7 @@ class KNN:
 
 ```
 
-### Testing The Model :
+#### Testing The Model :
 
 
 ```python
@@ -457,7 +457,7 @@ The Cost Function Used is This Example is defined  as bellow :
 <img src="resources/SVMCost.png" width="500" height="200">
 </div>
 
-### Implementation :
+#### Implementation :
 
 ```python 
 
@@ -537,7 +537,7 @@ class SVM :
 
 ```
 
-### Testing The Model :
+#### Testing The Model :
 
 ```python
 x , y = make_blobs(n_samples=100 , n_features=2 , centers=2 , random_state=0)
@@ -553,7 +553,7 @@ svm.displayTheModel(x, y)
 
 ```
 
-### The Model Result :
+#### The Model Result :
 
 <div align="center" >
 <img src="resources/SVMresult.png" width="300" height="200">
@@ -562,5 +562,606 @@ svm.displayTheModel(x, y)
 ---
 ## K-Means :
 
+K-means is an unsupervised machine learning algorithm used for clustering .The idea behind K-means is very simple , we try to find similarities between the data so that , similar data points belongs to the same class.
+
+<div align="center" >
+<img src="resources/K-means.gif" width="300" height="200">
+</div>
 
 
+#### Implementation :
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+
+
+class KMeans:
+    
+    def __init__(self , k , nbr_iterations = 500):
+        self.k = k
+        self.nbr_iterations = nbr_iterations
+        self.clusters = [[] for i in range(self.k)]
+        self.centers = []
+   
+    def fit(self , x):
+        self.x = x
+        self.nbr_samples , self.nbr_features = x.shape
+        
+        #initialize The Centers Randomly 
+        centers_indexes = np.random.choice(self.nbr_samples , self.k , replace = False)
+        self.centers = [self.x[index] for index in centers_indexes]
+        
+        for i in range(self.nbr_iterations):
+            
+            #Assign Samples to the clossest Center
+            self.clusters = self.CreateClusters(self.centers)
+            
+            oldCenters = self.centers
+            self.centers = self.UpdateCenters(self.clusters)
+            
+            #Check if The Stoping Criteria is True
+            if self.StopingCriteria(oldCenters , self.centers):
+                break
+            
+    def CreateClusters(self , centers):
+        CurrentClusters = [[] for i in range(self.k)]
+        
+        for index , sample in enumerate(self.x):
+            clossestCenter = self.clossest_center(sample , centers)
+            CurrentClusters[clossestCenter].append(index)
+        return CurrentClusters    
+           
+    def clossest_center(self , sample , centers):
+        distances = [self.euclideanDistance(sample, center) for center in centers]
+        return np.argmin(distances)
+            
+    def UpdateCenters(self , clusters):
+        newCenters = np.zeros((self.k , self.nbr_features))
+        for index , cluster in enumerate(clusters):
+            center = np.mean(self.x[cluster] , axis = 0)
+            newCenters[index] = center
+        return newCenters    
+        
+    def StopingCriteria(self , oldCenters , newCenters):
+        distances = [self.euclideanDistance(oldCenters[i], newCenters[i]) for i in range(self.k)]
+        return sum(distances) == 0
+    
+    def getClusters(self):
+        labels = np.empty(self.nbr_samples)
+        
+        for index , cluster in enumerate(self.clusters):
+            for sampleIndex in cluster:
+                labels[sampleIndex] = index
+        return labels
+    
+    def displayTheResult(self):
+        
+        fig, ax = plt.subplots(figsize=(12, 8))
+        #display The Clusters
+        for _ , index in enumerate(self.clusters):
+            points = self.x[index]
+            ax.scatter(points[:,0] , points[:,1])
+        #display The Centers    
+        for center in self.centers:
+            ax.scatter(center[0] , center[1], marker="x", color="black", linewidth=5)
+        plt.title("KMeans")    
+        plt.show()         
+            
+    def euclideanDistance(self , x1 , x2):
+        return np.sqrt(np.sum( (x1 - x2)**2 ))
+```
+
+#### Testing The Model :
+
+```python
+def accuracy(y_true , y_pred):
+    return np.sum(y_true == y_pred) / len(y_true)
+
+x , y = make_blobs(n_samples=100 , n_features=2 , centers=3 , random_state=0)
+
+nbr_classes = len(np.unique(y))
+K_means = KMeans(k = nbr_classes)
+K_means.fit(x)
+y_pred = K_means.getClusters()
+K_means.displayTheResult()
+print("KMeans Accuracy : ",accuracy(y, y_pred))
+```
+
+#### The Model Result :
+
+<div align="center" >
+<img src="resources/KMeansResult.png" width="300" height="200">
+</div>
+
+---
+
+## Naive Bayes :
+Naive Bayes classifier is a probabilistic machine learning model that’s used to solve classification problems , is actually based on the Bayes theorem.
+
+<div align="center" >
+<img src="resources/BayesTheorem.png" width="300" height="100">
+</div>
+
+The Naive Bayes Model is defined as follows :
+
+<div align="center" >
+<img src="resources/NaiveBayesExplanation.png" width="400" height="250">
+</div>
+
+#### Implementation :
+
+```python
+import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+class NaiveBayes:
+    
+    def fit(self , x , y):
+        self.classes = np.unique(y)
+        self.nbr_classes = len(self.classes)
+        
+        self.mean = np.zeros((self.nbr_classes , x.shape[1]) , dtype = np.float64)
+        self.variance = np.zeros((self.nbr_classes , x.shape[1]) , dtype = np.float64)
+        self.probability_of_a_Class = np.zeros(self.nbr_classes , dtype=np.float64)
+        
+        for index , classValue in enumerate(self.classes):
+            class_i = x[classValue == y]
+            self.mean[index , :] = class_i.mean(axis = 0)
+            self.variance[index , :] = class_i.var(axis = 0)
+            self.probability_of_a_Class[index] = float(class_i.shape[0] / y.shape[0])
+            
+    def predict(self , x):
+        y_predicted =  [self.predictOneSample(xi) for xi in x]
+        return np.array(y_predicted)
+    
+    def predictOneSample(self , x):
+        probabilities = []
+        for index , classValue in enumerate(self.classes):
+            probability = np.log(self.probability_of_a_Class[index]) + np.sum(np.log(self.probability_Density_function(index, x)))
+            probabilities.append(probability)           
+        return self.classes[np.argmax(probabilities)]
+    
+    def probability_Density_function(self , classIndex , x):
+        mean = self.mean[classIndex]
+        variance = self.variance[classIndex]
+        numerator = np.exp( - (x - mean**2) / (2 * variance**2))
+        denominator = np.sqrt(2 * np.pi * variance)
+        return numerator / denominator
+```
+
+#### Testing The Model : 
+
+```python
+x , y = make_classification(n_samples=1000 , n_features=10 , n_classes=2 , random_state=0)
+
+x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.25)
+
+
+N_Bayes = NaiveBayes()
+N_Bayes.fit(x_train, y_train) 
+y_hat = N_Bayes.predict(x_test)
+
+accuracy = accuracy_score(y_test , y_hat)
+print("Model Accuarcy : ", accuracy)
+```
+---
+
+## Decision Tree :
+
+Decision Trees is a supervised learning Algorithm used to solve classification and regression problems . The goal is to create a model that predicts the value of a target variable by learning simple decision rules taken from the data features.
+
+
+<div align="center" >
+<img src="resources/decisionTree.png" width="300" height="200">
+</div>
+
+The idea behind Decision Tree is very simple , we try to find The best Feature and threshold that will split our data so that :
+* The samples that they've feature value less than threshold will be stored in the left side .
+* The samples that they've a feature value more than threshold will be stored in the right side .
+* if a node is leaf , we will store the value of the class which is the most common class in the samples in this node .
+
+
+We choose The Feature that will split our data Based on The Information gain , the feature that have to maximum value of the Information gain is the most Important.
+to calculate the Information gain we need first to calculate The Entropy for every Feature , the Formula of the Entropy is defined as following:
+
+<div align="center" >
+<img src="resources/Entropy.PNG" width="300" height="100">
+</div>
+
+Now we can Calculate The Information Gain using this Formula :
+
+<div align="center" >
+<img src="resources/InformationGain.png" width="300" height="100">
+</div>
+#### Implementation :
+
+```python
+import numpy as np
+from collections import Counter
+from sklearn.datasets import make_blobs
+from sklearn.model_selection import train_test_split
+
+class Node :
+    
+    """
+    Node Takes 5 parameters
+        feature : the feature used to split in this Node
+        threshold : the threshold used to split in this Node
+        left : left Child of this Node
+        right : right Child of This Node 
+        value : the Common class in This Node in case if he's a leaf Node
+    """
+    def __init__(self , feature = None , threshold = None , left = None , right = None , value = None):
+        self.feature = feature
+        self.threshold = threshold
+        self.left = left
+        self.right = right
+        self.value = value
+    #Function Used to verify if a node is leaf or Not    
+    def isLeafNode(self):
+       return self.value is not None
+
+class DecisionTree :
+
+    """
+    Decision Tree takes 3 parameters 
+        min_Samples_to_Split : the Minimum Samples required to do a split 
+        maximum_Depth : maximum depth of a tree
+        nbr_features : the number of features in a tree
+    """
+    def __init__(self , min_Samples_to_Split = 2 , maximum_Depth = 100 , nbr_features = None):
+        self.min_Samples_to_Split = min_Samples_to_Split
+        self.maximum_Depth = maximum_Depth
+        self.nbr_features = nbr_features
+        self.root = None
+    
+    #Function Used to fit The Data to The Tree
+    def fit(self , x , y ):
+        self.nbr_features = x.shape[1] if self.nbr_features is None else min(self.nbr_features , x.shape[1])
+        self.root = self.GrowTree(x,y) 
+    
+    #a recursive Function used to add new Node based on a feature and a threshold to split
+    def GrowTree(self , x , y , depth = 0):
+        nbr_samples , nbr_features = x.shape
+        """
+            np.unique it a numpy array that gives as unique values in an array
+            example :
+                a = np.array([1,1,1,2,2,3])
+                np.unique(a) return => [1,2,3]
+        """
+        nbr_classes = len(np.unique(y))
+        
+        """
+        The Stop Criteria contains three conditions :
+            * Number Of Samples less than minimum samples to split (in our case is 2).
+            * depth greather than or equal the maximum depth (in our case is 100).
+            * Number of classes in a node is 1 , so we don't need to split the data .
+        """
+        
+        if (nbr_samples < self.min_Samples_to_Split or depth >= self.maximum_Depth or nbr_classes == 1 ):
+            leafValue = self.getMostCommonClass(y)
+            return Node(value=leafValue)
+        else :
+            #get The list of features in an array in a random way
+            features_Indexes = np.random.choice(nbr_features , self.nbr_features , replace = False)
+            #get The Best Feature and The Best Threshold to split the data using Greedy Search
+            bestFeature , bestThreshold = self.bestCriteria(x , y , features_Indexes)
+            #Now we've our best Feature to split the data and The Best Threshold
+            leftIndexes , rightIndexes = self.split(x[:,bestFeature] , bestThreshold)
+            #call the function GrowTree recursively
+            leftChild = self.GrowTree(x[leftIndexes,:], y[leftIndexes] , depth+1)
+            rightChild = self.GrowTree(x[rightIndexes,:], y[rightIndexes] , depth+1)
+            return Node(feature=bestFeature , threshold=bestThreshold , left=leftChild , right=rightChild )
+
+        """
+        This Function used to get The Most Common label :
+            a = np.array([1,1,1,2,2,3,2,1,2])
+            common = Counter(a).most_common(1) => return ([1,4])
+            to get The most Common lable we do this => common:Label = common[0][0]
+        """
+    def getMostCommonClass(self , y):
+        return Counter(y).most_common(1)[0][0]
+        
+        """
+        This Function is Used To Get The Best Feature and The Best threshold to split The Data
+        Using Greedy Search .
+        """
+    def bestCriteria(self , x , y , featuresIndexes):
+        bestInformationGain = -1
+        split_Index , split_Threshold = None , None
+        for FeatureIndex in featuresIndexes:
+            xi = x[:,FeatureIndex]
+            thresholds = np.unique(xi)
+            for thresh in thresholds:
+                #Calculate The Information Gain if we split using This Feature and this threshold
+                CurrentInformationGain = self.informationGain(xi , y , thresh)
+                if CurrentInformationGain > bestInformationGain :
+                    bestInformationGain = CurrentInformationGain
+                    split_Index = FeatureIndex
+                    split_Threshold = thresh
+        return split_Index , split_Threshold            
+            
+    """
+    This Function Used to calculate The Information Gain Using This Formula :
+        Information_Gain = Entropy(Parent) - [Weighted Average of child i] * entropy(child i)
+    """
+    def informationGain(self , x , y , threshold):
+        parentEntropy = self.entropy(y)
+        
+        #Now we Need to split the data to find The left and right children
+        left_indexes , right_indexes = self.split(x , threshold)        
+        
+        parentSize = len(y)
+        leftSize , rightSize = len(left_indexes) , len(right_indexes)
+        leftWeightAVG , rightWeightAVG = leftSize / parentSize , rightSize / parentSize
+        leftEntropy , rightEntropy = self.entropy(y[left_indexes]) , self.entropy(y[right_indexes])
+        #Information_Gain = Entropy(Parent) - [Weighted Average of child i] * entropy(child i)
+        Information_Gain = parentEntropy - (leftWeightAVG * leftEntropy + rightWeightAVG * rightEntropy)
+        return Information_Gain
+    """
+    This Function Used to Calculate The Entropy for a Node Using This Formula :
+        entropy = - Sigma ( (probability of X) * log2 (probability of X) )
+    """    
+    def entropy(self , y):
+        NumberOfOccurances = np.bincount(y)
+        probabilities = NumberOfOccurances / len(y)
+        return - np.sum([probability * np.log2(probability) for probability in probabilities if probability > 0])
+    """
+    This Function Used to split The Data using a threshold passed in the parameters.
+    """     
+    def split(self , x , thresh):
+        left_indexes , right_Indexes = np.argwhere(x <= thresh).flatten() , np.argwhere(x > thresh).flatten()
+        return left_indexes , right_Indexes
+    """
+    This Function Used To Predict a new Sample.
+    """
+    def predict(self , x):
+        return np.array([self.traverseTree(xi , self.root) for xi in x])
+    
+    """
+    This Function Used to traverse The Tree .
+    """
+    def traverseTree(self , x , node):
+        if node.isLeafNode():
+            return node.value
+        
+        if x[node.feature] < node.threshold :
+            return self.traverseTree(x, node.left)
+        return self.traverseTree(x, node.right)
+```
+#### Testing The Model :
+```python
+def accuracy(y_true , y_pred):
+    return np.sum(y_true == y_pred ) / len(y_true)
+
+x , y = make_blobs(n_samples=100 , n_features=10 , centers=10 , random_state=0)
+x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.1)
+
+decisionTree = DecisionTree(nbr_features=x_train.shape[1])
+decisionTree.fit(x_train, y_train)
+y_hat = decisionTree.predict(x_test)
+print("y_hat : ",y_hat)
+print("Model Accuracy : ",accuracy(y_test, y_hat))
+```
+---
+## Random Forest :
+
+Random forests or random decision forests are an ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. For regression tasks, the mean or average prediction of the individual trees is returned.
+
+<div align="center" >
+<img src="resources/randomF.png" width="300" height="200">
+</div>
+
+#### Implementation :
+
+```python
+import numpy as np
+from collections import Counter
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_blobs
+from DecisionTree import DecisionTree
+
+class RandomForest:
+    
+    def __init__(self , nbr_trees ,min_Samples_to_Split = 2 , maximum_Depth = 100 , nbr_features = None):
+        self.nbr_trees = nbr_trees
+        self.min_Samples_to_Split = min_Samples_to_Split
+        self.maximum_Depth = maximum_Depth
+        self.nbr_features = nbr_features
+        
+    def fit(self , x, y):
+        self.trees = []
+        for i in range(self.nbr_trees):
+            tree = DecisionTree(min_Samples_to_Split=self.min_Samples_to_Split , maximum_Depth=self.maximum_Depth , nbr_features=self.nbr_features)
+            x_i , y_i = self.randomSubSet(x, y)
+            tree.fit(x_i , y_i)
+            self.trees.append(tree)
+        
+    def randomSubSet(self , x, y):
+        nbr_samples = x.shape[0]
+        indexes = np.random.choice(nbr_samples , nbr_samples , replace = True)
+        return x[indexes] , y[indexes]
+    
+    def predict(self , x):
+        trees_Predictions = np.array([t.predict(x) for t in self.trees])
+        trees_Predictions = np.swapaxes(trees_Predictions, 0, 1)
+        y_hat = np.array([Counter(t_Predictions).most_common(1)[0][0] for t_Predictions in trees_Predictions]) 
+        return y_hat
+```
+
+#### Testing The Model :
+```python
+def accuracy(y_true , y_pred):
+    return np.sum(y_true == y_pred ) / len(y_true)
+
+x , y = make_blobs(n_samples=100 , n_features=10 , centers=10 , random_state=0)
+x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.1)
+
+R_Forest = RandomForest(nbr_trees=10)
+R_Forest.fit(x_train, y_train)
+y_hat = R_Forest.predict(x_test)
+print("Model Accuracy : ",accuracy(y_test, y_hat))
+```
+---
+## AdaBoost :
+
+Before talking about AdaBoost we need to explain what is Boosting ?
+
+Boosting is an ensemble meta-algorithm in supervised learning, and a family of machine learning algorithms that convert **weak learners** to strong ones. Boosting is based on the question posed by **Kearns** and **Valiant**  [[2]](https://en.wikipedia.org/wiki/Boosting_(machine_learning)) .
+
+**"Can a set of weak learners create a single strong learner?"**
+
+
+The Boosting technique is described as follows :
+<div align="center" >
+<img src="resources/boosting.PNG" width="300" height="100">
+</div>
+
+Where ft is a weak classifier that takes a sample x as input and return the class of it , and T is the number of weak learners .
+
+> **as you can see in the formula above , the Weak classifiers contribute in the result in the same amount , this is exacly the difference between a simple Boosting algorithm and AdaBosst , in AdaBoost the weak learners contribute with a value conrespending to their performance .**
+
+The PseudoCode of AdaBoost is defined as following :
+
+The Boosting technique is described as follows :
+<div align="center" >
+<img src="resources/AdaBoostPseudoCode.PNG" width="500" height="300">
+</div>
+
+
+The Formula used to predict a certain sample is defined in the following :
+
+<div align="center" >
+<img src="resources/AdaBoostPredict.png" width="300" height="100">
+</div>
+
+> **As you can see in the formula above every Weak classifier contribute to the result with a value corresponding to his performance , This is The difference between a simple Boosting algorithm and AdaBoost.**
+
+#### Implementation :
+
+```python
+import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+class DecisionStump:
+    
+    def __init__(self):
+        self.classLabel = None
+        self.threshold = None
+        self.feature = None
+        self.alpha = None
+    
+    def predict(self , x):
+        Feature = x[:,self.feature]
+        predictions = np.where(Feature < self.threshold , self.classLabel ,-1 * self.classLabel)
+        return predictions
+
+class AdaBoost:
+    
+    def __init__(self , nbr_classifiers = 10 , epsilon = 1e-10):
+        self.nbr_classifiers = nbr_classifiers
+        self.epsilon = epsilon
+        self.classifiers = []
+        
+    def fit(self , x , y):
+        self.x_train = x
+        self.y_train = y
+        #Initialize The weights for all the samples with 1 / nbr_samples
+        self.weights = np.full(self.x_train.shape[0] , (1 / self.x_train.shape[0]) , dtype=np.float64)
+    
+    def train(self ):
+        for i in range(self.nbr_classifiers):
+            Weak_Classifier_i = DecisionStump()
+            minimum_Error = float("inf")
+            
+            #Iterate Over all the features to find the perfect one that will split our data
+            for feature in range(self.x_train.shape[1]):
+                current_Feature = self.x_train[:,feature]
+                #find thresholds Values which is the unique values of the feature that we're working with
+                thresholds = np.unique(current_Feature)
+                #iterate over all the thresholds to find the perfect one that will split the current feature
+                for threshold in thresholds:
+                    """
+                    we don't know what the class of samples where feature < threshold , this is way we will test with class 1 ,
+                    if the error more than 0.5 which is mean the majority of the samples that we calssified as 1 are -1 , so what we will do in this case ?
+                    we will flip the error and assign -1 to our class label .
+                    
+                    if error (label used is 1) = 0.8 
+                    then error(label is -1) = 0.2 .
+                    
+                    """
+                    class_Label = 1
+                    predictions = np.where(current_Feature < threshold , class_Label , -1 * class_Label)
+                    error = np.sum(self.weights[self.y_train != predictions])
+                    #flip The Error and The classLabel
+                    if error > 0.5 :
+                        error = 1-error
+                        class_Label = -1
+                    #if we find a better error less than the previous (we initialize The Error with float("if") which is a very small number)     
+                    if error < minimum_Error:
+                        Weak_Classifier_i.classLabel = class_Label
+                        Weak_Classifier_i.threshold = threshold
+                        Weak_Classifier_i.feature = feature
+                        minimum_Error = error                    
+            #Calculate The Performance of the Current Weak Classifier            
+            Weak_Classifier_i.alpha = 0.5 * np.log((1 - minimum_Error + self.epsilon) / (minimum_Error + self.epsilon))        
+            
+            #Update The Weights
+            predictions = Weak_Classifier_i.predict(self.x_train)
+            self.weights *= (np.exp( - Weak_Classifier_i.alpha * predictions * self.y_train)) / (np.sum(self.weights))
+            #save our Weak Classifier
+            self.classifiers.append(Weak_Classifier_i)
+            
+    def predict(self , x):
+         classifiers_predictions = [classifier.alpha * classifier.predict(x) for classifier in self.classifiers]
+         y_pred = np.sum(classifiers_predictions , axis = 0)
+         return np.sign(y_pred)
+     
+    def plotTheModel(self):
+        fig , ax = plt.subplots()
+        Weak_Classifiers = []
+        Errors = []
+        for i in range(self.nbr_classifiers):
+            Weak_Classifiers.append("c"+str(i))
+            Errors.append(self.classifiers[i].alpha)
+        ax.bar(Weak_Classifiers , Errors)
+        ax.set_ylabel("Error")
+        ax.set_xlabel("classifiers")
+        ax.set_title("Error of classifiers")
+        plt.show()
+#Test AdaBoost 
+```
+
+#### Testing The Model :
+
+```python
+def Accuracy(y , y_hat):
+    return np.sum(y != y_hat) / len(y)
+
+
+x , y = make_blobs(n_samples=500 , n_features=10 , centers=2 , random_state=0)
+x_train , x_test , y_train , y_test = train_test_split(x , y , test_size=0.25)
+
+adaBoost  = AdaBoost()
+adaBoost.fit(x_train, y_train)
+adaBoost.train()
+y_hat = adaBoost.predict(x_test)
+print("AdaBoost Accuracy : ",Accuracy(y_test, y_hat))
+adaBoost.plotTheModel()
+```
+
+#### The Performance of each Weak Classifier that we get is :
+
+<div align="center" >
+<img src="resources/AdaBoostResult.png" width="400" height="200">
+</div>
+
+## Contributing :
+
+**If you want to contribute To This Repository just fork this repository and make your changes , and then make a pull Request .**
