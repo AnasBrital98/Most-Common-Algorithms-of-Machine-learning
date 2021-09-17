@@ -2,13 +2,13 @@
 Naive Bayes classifier is a probabilistic machine learning model that’s used to solve classification problems , is actually based on the Bayes theorem.
 
 <div align="center" >
-<img src="resources/BayesTheorem.png" width="300" height="100">
+<img src="../resources/BayesTheorem.png" width="300" height="100">
 </div>
 
 The Naive Bayes Model is defined as follows :
 
 <div align="center" >
-<img src="resources/NaiveBayesExplanation.png" width="400" height="250">
+<img src="../resources/NaiveBayesExplanation.png" width="400" height="250">
 </div>
 
 #### Implementation :

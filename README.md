@@ -12,7 +12,6 @@ This Repository contains The Explanation and the Implementation of this Algorith
 * Random Forest .
 * AdaBoost .
 
-
 ## Contributing :
 
 **If you want to contribute To This Repository just fork this repository and make your changes , and then make a pull Request .**

@@ -9,7 +9,7 @@ Boosting is an ensemble meta-algorithm in supervised learning, and a family of m
 
 The Boosting technique is described as follows :
 <div align="center" >
-<img src="resources/boosting.PNG" width="300" height="100">
+<img src="../resources/boosting.PNG" width="300" height="100">
 </div>
 
 Where ft is a weak classifier that takes a sample x as input and return the class of it , and T is the number of weak learners .
@@ -20,14 +20,14 @@ The PseudoCode of AdaBoost is defined as following :
 
 The Boosting technique is described as follows :
 <div align="center" >
-<img src="resources/AdaBoostPseudoCode.PNG" width="500" height="300">
+<img src="../resources/AdaBoostPseudoCode.PNG" width="500" height="300">
 </div>
 
 
 The Formula used to predict a certain sample is defined in the following :
 
 <div align="center" >
-<img src="resources/AdaBoostPredict.png" width="300" height="100">
+<img src="../resources/AdaBoostPredict.png" width="300" height="100">
 </div>
 
 > **As you can see in the formula above every Weak classifier contribute to the result with a value corresponding to his performance , This is The difference between a simple Boosting algorithm and AdaBoost.**
@@ -150,5 +150,5 @@ adaBoost.plotTheModel()
 #### The Performance of each Weak Classifier that we get is :
 
 <div align="center" >
-<img src="resources/AdaBoostResult.png" width="400" height="200">
+<img src="../resources/AdaBoostResult.png" width="400" height="200">
 </div>

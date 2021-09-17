@@ -4,7 +4,7 @@ The k-nearest neighbors is a simple supervised machine learning algorithm that c
 
 
 <div align="center" >
-<img src="resources/KNN.png" width="300" height="200">
+<img src="../resources/KNN.png" width="300" height="200">
 </div>
 
 The idea behind K nearest neighbors is very simple , imagine with we have a training_set contains M samples , every sample contains N Features , if we've a new sample we want to classify , we need to find The K closest sample in the training_set to our new Sample (Using euclidean distance) , then the class of our sample is the most common class in The K closest samples that we calculated before , this is why they called it **K nearest neighbors** it all about finding the Neighbors .

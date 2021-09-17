@@ -2,13 +2,13 @@
 Logistic regression is a Binary Classification Algorithm , The Idea is very Simple we train The Model with a list of couples (x_i , y_i) to figure out The best Coefficient m and b that will fit our data .
 
 <div align="center" >
-<img src="resources/LinearRegressionFormula.png" width="300">
+<img src="../resources/LinearRegressionFormula.png" width="300">
 </div>
 
 Then we apply an Activation Function called **logistic Function** or **Sigmoid**.
 
 <div align="center" >
-<img src="resources/sigmoid.png" width="300">
+<img src="../resources/sigmoid.png" width="300">
 </div>
 
 what we're trying to do is we try to find A line ( Y = m*X + b ) that will split our data to two classes , class 0 where activation(Predicted value) > 0.5 , class 1 where activation(Predicted value) < 0.5 .
@@ -16,13 +16,13 @@ what we're trying to do is we try to find A line ( Y = m*X + b ) that will split
 The Cost Function Used in this Example is **Log-Loss** and it defined as following :
 
 <div align="center" >
-<img src="resources/LogLoss.png" width="300">
+<img src="../resources/LogLoss.png" width="300">
 </div>
 
 The Optimization Algorithm Used in this Example is **Gradient Descent** ans it defined as following :
 
 <div align="center" >
-<img src="resources/gradientDescentFormula.png" width="300">
+<img src="../resources/gradientDescentFormula.png" width="300">
 </div>
 
 
@@ -112,14 +112,14 @@ L_regression.didplayTheModel(x, y)
 #### The Model Result :
 
 <div align="center" >
-<img src="resources/logisticRegressionResult.png" width="300">
+<img src="../resources/logisticRegressionResult.png" width="300">
 </div>
 
 #### The Loss of The Model :
 
 
 <div align="center" >
-<img src="resources/LogisticRegressionLoss.png" width="300">
+<img src="../resources/LogisticRegressionLoss.png" width="300">
 </div>
 
 In this example we used 100 iteration to train The Model , and as you can see The Loss is decreasing Over iterations .

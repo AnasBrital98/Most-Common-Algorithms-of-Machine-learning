@@ -3,7 +3,7 @@
 K-means is an unsupervised machine learning algorithm used for clustering .The idea behind K-means is very simple , we try to find similarities between the data so that , similar data points belongs to the same class.
 
 <div align="center" >
-<img src="resources/K-means.gif" width="300" height="200">
+<img src="../resources/K-means.gif" width="300" height="200">
 </div>
 
 
@@ -110,5 +110,5 @@ print("KMeans Accuracy : ",accuracy(y, y_pred))
 #### The Model Result :
 
 <div align="center" >
-<img src="resources/KMeansResult.png" width="300" height="200">
+<img src="../resources/KMeansResult.png" width="300" height="200">
 </div>

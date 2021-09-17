@@ -4,7 +4,7 @@ Support Vector Machine or SVM is a supervised learning Algorithm used for classi
 SVM can solve linear and non-linear problems , The idea behind SVM is very simple , the algorithm try to create a line that can separate the classes .
 
 <div align="center" >
-<img src="resources/svm.png" width="300" height="200">
+<img src="../resources/svm.png" width="300" height="200">
 </div>
 
 The goal of the line is to maximizing the margin between the points on either side of the so called decision line.
@@ -12,7 +12,7 @@ The goal of the line is to maximizing the margin between the points on either si
 The Cost Function Used is This Example is defined  as bellow :
 
 <div align="center" >
-<img src="resources/SVMCost.png" width="500" height="200">
+<img src="../resources/SVMCost.png" width="500" height="200">
 </div>
 
 #### Implementation :
@@ -114,5 +114,5 @@ svm.displayTheModel(x, y)
 #### The Model Result :
 
 <div align="center" >
-<img src="resources/SVMresult.png" width="300" height="200">
+<img src="../resources/SVMresult.png" width="300" height="200">
 </div>

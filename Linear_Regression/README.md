@@ -2,7 +2,7 @@
 Linear regression is a linear approach for modelling the relationship between X and Y , where X is The Input Data and Y is The Target .
 
 <div align="center" >
-<img src="resources/LinearRegressionFormula.png" width="300">
+<img src="../resources/LinearRegressionFormula.png" width="300">
 </div>
 
 So linear regression consists of finding the coefficients m and b so that Y = m * X + b.
@@ -12,7 +12,7 @@ The Question now how can we find those coefficients :
 - we can Use Gradient Descent to find them .
 
 <div align="center" >
-<img src="resources/gradientDescentGraph.png" width="300">
+<img src="../resources/gradientDescentGraph.png" width="300">
 </div>
 
 Gradient descent is a first-order iterative optimization algorithm for finding a local minimum of a differentiable function. The idea is to take repeated steps in the opposite direction of the gradient (or approximate gradient) of the function at the current point, because this is the direction of steepest descent. Conversely, stepping in the direction of the gradient will lead to a local maximum of that function; the procedure is then known as gradient ascent. [[1]](https://en.wikipedia.org/wiki/Gradient_descent)  
@@ -20,13 +20,13 @@ Gradient descent is a first-order iterative optimization algorithm for finding a
 The Cost Function Used in this Example is **Log-Loss** and it defined as following :
 
 <div align="center" >
-<img src="resources/LogLoss.png" width="300">
+<img src="../resources/LogLoss.png" width="300">
 </div>
 
 The Optimization Algorithm Used in this Example is **Gradient Descent** ans it defined as following :
 
 <div align="center" >
-<img src="resources/gradientDescentFormula.png" width="300">
+<img src="../resources/gradientDescentFormula.png" width="300">
 </div>
 
 #### Implementation :
@@ -96,5 +96,5 @@ print("MSE : ",MSE(y_test , y_hat))
 
 #### The Model Result :
 <div align="center" >
-<img src="resources/linearRegression.png" width="300">
+<img src="../resources/linearRegression.png" width="300">
 </div>

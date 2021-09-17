@@ -4,7 +4,7 @@ Decision Trees is a supervised learning Algorithm used to solve classification a
 
 
 <div align="center" >
-<img src="resources/decisionTree.png" width="300" height="200">
+<img src="../resources/decisionTree.png" width="300" height="200">
 </div>
 
 The idea behind Decision Tree is very simple , we try to find The best Feature and threshold that will split our data so that :
@@ -17,13 +17,13 @@ We choose The Feature that will split our data Based on The Information gain , t
 to calculate the Information gain we need first to calculate The Entropy for every Feature , the Formula of the Entropy is defined as following:
 
 <div align="center" >
-<img src="resources/Entropy.PNG" width="300" height="100">
+<img src="../resources/Entropy.PNG" width="300" height="100">
 </div>
 
 Now we can Calculate The Information Gain using this Formula :
 
 <div align="center" >
-<img src="resources/InformationGain.png" width="300" height="100">
+<img src="../resources/InformationGain.png" width="300" height="100">
 </div>
 #### Implementation :
 

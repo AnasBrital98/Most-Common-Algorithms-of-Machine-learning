@@ -2,24 +2,24 @@
 the perceptron is an algorithm for supervised learning of binary classifiers. A binary classifier is a function which can decide whether or not an input, represented by a vector of numbers, belongs to some specific class.[[1]](https://en.wikipedia.org/wiki/Perceptron)
 
 <div align="center" >
-<img src="resources/Perceptron.png" width="300">
+<img src="../resources/Perceptron.png" width="300">
 </div>
 
 >The Activation Function Used by The Perceptron is **Step Function** it called also **Heaviside Function**.
 
 Formula of step function : 
 <div align="center" >
-<img src="resources/step-function-formula.png">
+<img src="../resources/step-function-formula.png">
 </div>
 
 graph of step function :
 <div align="center" >
-<img src="resources/step-function.png">
+<img src="../resources/step-function.png">
 </div>
 
 The Update Rules for The Perceptron are :
 <div align="center" >
-<img src="resources/update-rules.jpg" width="300" height="200">
+<img src="../resources/update-rules.jpg" width="300" height="200">
 </div>
 
 #### Implementation :
@@ -105,7 +105,7 @@ print("Model Accuracy : ", score)
 #### The Model Result :
 
 <div align="center" >
-<img src="resources/PerceptronResult.png" width="300" height="200">
+<img src="../resources/PerceptronResult.png" width="300" height="200">
 </div>
 
 The Result is not Perfect because this is what we get when we use a linear Model , as you can se the figure above we can't separate the data with a line .
